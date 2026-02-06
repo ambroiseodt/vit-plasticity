@@ -1,0 +1,14 @@
+# Experiment
+log_dir: vit_train
+
+# Data
+batch_size: 512
+
+# Device
+device: cuda:0
+
+# Reproducibility
+seed: 42
+
+# Orchestration
+logging_level: INFO

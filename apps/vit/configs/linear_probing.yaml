@@ -1,0 +1,18 @@
+# Experiment
+log_dir: vit_train
+finetuned: True
+cls_pooling: False
+
+# Data
+batch_size: 512
+val_batch_size: 512
+test_batch_size: 512
+
+# Device
+device: cuda:0
+
+# Reproducibility
+seed: 42
+
+# Orchestration
+logging_level: INFO

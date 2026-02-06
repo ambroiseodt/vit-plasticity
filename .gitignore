@@ -1,0 +1,14 @@
+# Build, cache and configuration files
+.DS_Store
+*.egg-info
+*.vscode
+*.log
+__pycache__
+
+# Saving directories
+checkpoints/
+datasets/
+figures/
+logs/
+results/
+savings/
