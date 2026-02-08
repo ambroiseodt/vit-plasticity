@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vitef"
+version = "0.0.0"
+authors = [
+  { name="Ambroise Odonnat", email="ambroiseodonnattechnologie@gmail.com" },
+]
+description = "Vision Transformer Finetuning Benefits from Non-Smooth Components"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "einops",
+    "fire",      
+    "numpy",
+    "omegaconf", 
+    "scipy",
+    "torch",
+    "torchvision",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff",            
+]
+
+vit = [
+    "accelerate",               
+    "huggingface_hub[hf_xet]", 
+    "timm",                    
+    "transformers",             
+]
+
+visu = [
+    "imageio",
+    "ipykernel",    
+    "ipywidgets",  
+    "matplotlib", 
+    "pymupdf",  
+    "seaborn",      
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.urls]
+"Homepage" = "https://github.com/ambroiseodt/vit-plasticity"
+"Documentation" = "https://github.com/ambroiseodt/vit-plasticity#readme"
+"Bug Tracker" = "https://github.com/ambroiseodt/vit-plasticity/issues"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+  "E", "F", "W",  # Default rules
+  "ANN001",       # Function arguments should annotate types
+  "ANN201",       # Public function should annotate return type
+  "B",            # Common bugs
+  "DTZ",          # Timezone issues
+  "I",            # Sort inputs
+  "PLE",          # Common errors
+  "RUF100",       # Remove unused noqa
+  "UP",           # Modern syntax
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]

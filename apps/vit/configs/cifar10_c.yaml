@@ -1,0 +1,40 @@
+# Experiment
+log_dir: vit_cifar10_c
+overwrite: true
+
+# Model
+model_name: base
+patch_size: 16
+image_dim: [3, 224, 224]
+components: []
+
+# Data
+dataset_name: cifar10_c-corruption-brightness-severity-1
+batch_size: 512
+val_batch_size: 512
+
+# Training
+n_steps: 10_000
+train_size: 0.8
+grad_acc_steps: 1
+grad_clip: 1
+
+# Optimizer
+optimizer: sgd
+lr: 1e-2
+momentum: 0.9
+
+# Scheduler
+scheduler: "cosine"
+
+# Evaluation
+eval_period: 350
+
+# Device
+device: cuda:0
+
+# Orchestrator
+logging_period: 70
+logging_level: INFO
+seed: 42
+utility_period:  1000
