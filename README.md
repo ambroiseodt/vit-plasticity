@@ -1,9 +1,9 @@
 # Vision Transformer Plasticity
-[![arXiv](https://img.shields.io/badge/arXiv-TBD-b31b1b.svg)](https://arxiv.org/abs/TBD)
+[![arXiv](https://img.shields.io/badge/arXiv-2602.06883-b31b1b.svg)](https://arxiv.org/abs/2602.06883)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 
-Official implementation of the paper [Vision Transformer Finetuning Benefits from Non-Smooth Components](https://arxiv.org/pdf/TBD). <br>
+Official implementation of the paper [Vision Transformer Finetuning Benefits from Non-Smooth Components](https://arxiv.org/pdf/2602.06883). <br>
 **Goal**: Investigate the plasticity of the vision transformer components by analyzing their average rates of change. <br>
 **Findings**: Finetuning non-smooth components (with high plasticity) yields better and more stable performance. <br>
 **Illustration**: Non-smooth components allow larger gradient norms and faster descent towards (local) minima.
@@ -17,7 +17,7 @@ Official implementation of the paper [Vision Transformer Finetuning Benefits fro
 **Illustration**: The high plasticity of non-smooth components leads to greater finetuning benefits (relative gain).
 
 ## Overview
-Our codebase was tailored to study transformers; we highly encourage you to use that as a template and modify it however you please to suit your experiments. We tried to make the code as easily modular as possible, se feel free to branch out or fork and play with it. Our codebase is structured as follows:
+Our codebase was tailored to study transformers finetuning; we highly encourage you to use that as a template and modify it however you please to suit your experiments. We tried to make the code as easily modular as possible, so feel free to branch out or fork and play with it. Our codebase is structured as follows:
 
 ```
 🛠️ vit-plasticity
@@ -127,7 +127,7 @@ python -m apps.vit.eval config=apps/vit/configs/eval.yaml
 ```
 
 ## Reproducibility
-The experiments of our [paper](https://arxiv.org/abs/TBD) can be reproduced using the scripts in ```apps/vit/scripts```. Launching them will automatically create dedicated ```tmux``` sessions for each group of experiments. After launching those scripts, the linear probing and finetuning performance can be recovered in a folder ```results/``` by running the following command from the root of the repository:
+The experiments of our [paper](https://arxiv.org/pdf/2602.06883) can be reproduced using the scripts in ```apps/vit/scripts```. Launching them will automatically create dedicated ```tmux``` sessions for each group of experiments. After launching those scripts, the linear probing and finetuning performance can be recovered in a folder ```results/``` by running the following command from the root of the repository:
 ```bash
 python -m apps.plots.finetuning csv
 ```
@@ -145,7 +145,7 @@ If you find our work useful, please consider giving a star ⭐, and citing us as
 @misc{odonnat2026vitplasticity,
   author = {Ambroise Odonnat and Romain Tavenard and Laetitia Chapel and Ievgen Redko},
   title = {{Vision Transformer Finetuning Benefits from Non-Smooth Components}},
-  url = {https://arxiv.org/abs/TBD},
+  url = {https://arxiv.org/abs/2602.06883},
   year = {2026}
 }
 ```
