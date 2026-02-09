@@ -41,7 +41,7 @@ Our codebase was tailored to study transformers finetuning; we highly encourage 
     ┣ 📄optim.py
     ┗ 📄utils.py
 ```
-The ```vitef``` folder contains essential and generic components related to vision transformers, which can be put together in the ```apps``` folder. In particular, ```apps/vit``` can be used to reproduce the experiments of our [paper](https://arxiv.org/abs/TBD). 
+The ```vitef``` folder contains essential and generic components related to vision transformers, which can be put together in the ```apps``` folder. In particular, ```apps/vit``` can be used to reproduce the experiments of our [paper](https://arxiv.org/pdf/2602.06883). 
 
 ## Getting started
 The code runs Python 3.10+. Here are some installation instructions:
@@ -143,9 +143,12 @@ If you have any questions, feel free to reach out at [```ambroiseodonnattechnolo
 If you find our work useful, please consider giving a star ⭐, and citing us as:
 ```
 @misc{odonnat2026vitplasticity,
-  author = {Ambroise Odonnat and Romain Tavenard and Laetitia Chapel and Ievgen Redko},
-  title = {{Vision Transformer Finetuning Benefits from Non-Smooth Components}},
-  url = {https://arxiv.org/abs/2602.06883},
-  year = {2026}
+      title={Vision Transformer Finetuning Benefits from Non-Smooth Components}, 
+      author={Ambroise Odonnat and Laetitia Chapel and Romain Tavenard and Ievgen Redko},
+      year={2026},
+      eprint={2602.06883},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2602.06883}, 
 }
 ```
