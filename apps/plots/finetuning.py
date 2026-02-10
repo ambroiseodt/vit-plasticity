@@ -283,7 +283,7 @@ def get_single_exp_linear_probing(
         results_file = json.load(f)
 
     # Recover model information and evaluation results
-    all_components = ["emb", "attn_norm", "mha", "ffn_norm", "ffn_fc1", "ffn_fc2"]
+    all_components = ["attn_norm", "attn", "attn_res", "ffn_norm", "ffn_fc1", "ffn_activation", "ffn_fc2", "ffn_res"]
     if finetuned:
         if comp == 0:
             trainable_components = ["all"]
@@ -397,7 +397,7 @@ def get_config_sensitivity(dataset_name: str, model_name: str, pretrained: bool 
         vit_model_name = f"vit-{model_name}-patch16-224-in21k"
 
     # Config name
-    config_name = f"sensitivity_analysis_{vit_model_name}_pretrained_{pretrained}"
+    config_name = f"analysis_{vit_model_name}_pretrained_{pretrained}"
     config_name += f"_{dataset_name}"
 
     return config_name
@@ -431,7 +431,7 @@ def table_results(dataset_names: list, seeds: list) -> None:
     for dataset_name in dataset_names:
         # Linear probing results
         linear_prob_pretrained = get_data(dataset_name, folder="linear_probing")
-        root_ind = (linear_prob_pretrained["block"] == 11) & (linear_prob_pretrained["component"] == "attn")
+        root_ind = (linear_prob_pretrained["block"] == 11) & (linear_prob_pretrained["component"] == "ffn_res")
         linear_prob_acc = linear_prob_pretrained[root_ind]["test_acc"].iloc[0]
         mean_linear_probing.append(linear_prob_acc)
         print(f"{dataset_name}: {np.round(linear_prob_acc * 100, 2)}")
@@ -662,7 +662,7 @@ def get_intro(
     for dataset_name in dataset_names:
         # Linear probing results
         linear_prob_pretrained = get_data(dataset_name, folder="linear_probing")
-        root_ind = (linear_prob_pretrained["block"] == 11) & (linear_prob_pretrained["component"] == "attn")
+        root_ind = (linear_prob_pretrained["block"] == 11) & (linear_prob_pretrained["component"] == "ffn_res")
         linear_prob_acc = linear_prob_pretrained[root_ind]["test_acc"].iloc[0]
 
         # Finetuning results
@@ -724,8 +724,8 @@ def get_intro(
     ax.tick_params(axis="both", direction="out", length=5, width=1)
     ax.set_xticks(range(5))
     ax.set_xticklabels(range(1, 6))
-    ax.set_ylim(50.6, 53.8)
-    yticks = [50.6, 52.1, 53.6]
+    ax.set_ylim(45.8, 48.8)
+    yticks = [45.8, 47.3, 48.8]
     ax.set_yticks(yticks)
     ax.set_yticklabels(yticks)
     ax.set_xlabel(r"Plasticity Rank ($\downarrow$)", fontsize=FONTSIZE)
@@ -1526,60 +1526,60 @@ def plot_figures() -> None:
     save = True
     get_intro(dataset_names=dataset_names, seeds=seeds, save=save)
 
-    dataset_names = [
-        "cifar10",
-        "cifar100",
-        "cifar10_c_gaussian_noise_5",
-        "cifar10_c_motion_blur_5",
-        "cifar10_c_contrast_5",
-        "cifar10_c_snow_5",
-        "cifar10_c_speckle_noise_5",
-        "domainnet_clipart",
-        "domainnet_sketch",
-        "flowers102",
-        "pet",
-    ]
-    seeds = [0, 42, 3407]
-    save = True
-    get_best_performance(dataset_names=dataset_names, seeds=seeds, save=save)
+    # dataset_names = [
+    #     "cifar10",
+    #     "cifar100",
+    #     "cifar10_c_gaussian_noise_5",
+    #     "cifar10_c_motion_blur_5",
+    #     "cifar10_c_contrast_5",
+    #     "cifar10_c_snow_5",
+    #     "cifar10_c_speckle_noise_5",
+    #     "domainnet_clipart",
+    #     "domainnet_sketch",
+    #     "flowers102",
+    #     "pet",
+    # ]
+    # seeds = [0, 42, 3407]
+    # save = True
+    # get_best_performance(dataset_names=dataset_names, seeds=seeds, save=save)
 
-    dataset_names = [
-        "cifar10",
-        "cifar100",
-        "cifar10_c_gaussian_noise_5",
-        "cifar10_c_motion_blur_5",
-        "cifar10_c_contrast_5",
-        "cifar10_c_snow_5",
-        "cifar10_c_speckle_noise_5",
-        "domainnet_clipart",
-        "domainnet_sketch",
-        "flowers102",
-        "pet",
-    ]
-    seeds = [0, 42, 3407]
-    save = True
-    get_robustness_all(dataset_names=dataset_names, seeds=seeds, save=save)
+    # dataset_names = [
+    #     "cifar10",
+    #     "cifar100",
+    #     "cifar10_c_gaussian_noise_5",
+    #     "cifar10_c_motion_blur_5",
+    #     "cifar10_c_contrast_5",
+    #     "cifar10_c_snow_5",
+    #     "cifar10_c_speckle_noise_5",
+    #     "domainnet_clipart",
+    #     "domainnet_sketch",
+    #     "flowers102",
+    #     "pet",
+    # ]
+    # seeds = [0, 42, 3407]
+    # save = True
+    # get_robustness_all(dataset_names=dataset_names, seeds=seeds, save=save)
 
-    dataset_names = [
-        "cifar10",
-        "cifar100",
-        "cifar10_c_gaussian_noise_5",
-        "cifar10_c_motion_blur_5",
-        "cifar10_c_contrast_5",
-        "cifar10_c_snow_5",
-        "cifar10_c_speckle_noise_5",
-        "domainnet_clipart",
-        "domainnet_sketch",
-        "flowers102",
-        "pet",
-    ]
-    save = True
-    for seed in [0, 42, 3407]:
-        for dataset_name in dataset_names:
-            get_training_evolution(dataset_name=dataset_name, seed=seed, save=save)
+    # dataset_names = [
+    #     "cifar10",
+    #     "cifar100",
+    #     "cifar10_c_gaussian_noise_5",
+    #     "cifar10_c_motion_blur_5",
+    #     "cifar10_c_contrast_5",
+    #     "cifar10_c_snow_5",
+    #     "cifar10_c_speckle_noise_5",
+    #     "domainnet_clipart",
+    #     "domainnet_sketch",
+    #     "flowers102",
+    #     "pet",
+    # ]
+    # save = True
+    # for seed in [0, 42, 3407]:
+    #     for dataset_name in dataset_names:
+    #         get_training_evolution(dataset_name=dataset_name, seed=seed, save=save)
 
-    save = True
-    get_robustness_training_domainnet_sketch(save=save)
+    # save = True
+    # get_robustness_training_domainnet_sketch(save=save)
 
 
 # %% Main
