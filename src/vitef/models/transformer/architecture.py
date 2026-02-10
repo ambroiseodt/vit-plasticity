@@ -444,6 +444,7 @@ class TransformerBlock(nn.Module):
 
             # Residual connection
             out_res = x + out
+            probes["attn_res"] = move_to_cpu(out_res)
 
             # Feedforward norm
             out = self.ffn_norm(out_res)
@@ -455,6 +456,7 @@ class TransformerBlock(nn.Module):
 
             # Activation
             out = self.ffn.activation(out)
+            probes["ffn_activation"] = move_to_cpu(out)
 
             # FC2
             out = self.ffn.fc2(out)
@@ -462,6 +464,7 @@ class TransformerBlock(nn.Module):
 
             # Residual connection
             out = out_res + out
+            probes["ffn_res"] = move_to_cpu(out)
 
         else:
             # Attention
@@ -470,6 +473,7 @@ class TransformerBlock(nn.Module):
 
             # Residual connection
             out = x + out
+            probes["attn_res"] = move_to_cpu(out)
 
             # Attention norm
             out_res = self.attn_norm(out)
@@ -481,6 +485,7 @@ class TransformerBlock(nn.Module):
 
             # Activation
             out = self.ffn.activation(out)
+            probes["ffn_activation"] = move_to_cpu(out)
 
             # FC2
             out = self.ffn.fc2(out)
@@ -488,6 +493,7 @@ class TransformerBlock(nn.Module):
 
             # Residual connection
             out = out_res + out
+            probes["ffn_res"] = move_to_cpu(out)
 
             # FFN norm
             out = self.ffn_norm(out)

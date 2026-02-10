@@ -7,16 +7,6 @@
 # $ bash <path_to_file_folder>/linear_probing.sh
 # ```
 
-# Define components to freeze
-declare -a comps=("components"=[]
-                 "components=["attn_norm","mha","ffn_norm","ffn_fc1","ffn_fc2"]"
-                 "components=["emb","mha","ffn_norm","ffn_fc1","ffn_fc2"]"
-                 "components=["emb","attn_norm","ffn_norm","ffn_fc1","ffn_fc2"]"
-                 "components=["emb","attn_norm","mha","ffn_fc1","ffn_fc2"]"
-                 "components=["emb","attn_norm","mha","ffn_norm","ffn_fc2"]"
-                 "components=["emb","attn_norm","mha","ffn_norm","ffn_fc1"]"
-                )
-
 # ---------------------------------
 # Pretrained models on Imagenet-21K
 # ---------------------------------
