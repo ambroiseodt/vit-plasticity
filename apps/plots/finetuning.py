@@ -1526,60 +1526,60 @@ def plot_figures() -> None:
     save = True
     get_intro(dataset_names=dataset_names, seeds=seeds, save=save)
 
-    # dataset_names = [
-    #     "cifar10",
-    #     "cifar100",
-    #     "cifar10_c_gaussian_noise_5",
-    #     "cifar10_c_motion_blur_5",
-    #     "cifar10_c_contrast_5",
-    #     "cifar10_c_snow_5",
-    #     "cifar10_c_speckle_noise_5",
-    #     "domainnet_clipart",
-    #     "domainnet_sketch",
-    #     "flowers102",
-    #     "pet",
-    # ]
-    # seeds = [0, 42, 3407]
-    # save = True
-    # get_best_performance(dataset_names=dataset_names, seeds=seeds, save=save)
+    dataset_names = [
+        "cifar10",
+        "cifar100",
+        "cifar10_c_gaussian_noise_5",
+        "cifar10_c_motion_blur_5",
+        "cifar10_c_contrast_5",
+        "cifar10_c_snow_5",
+        "cifar10_c_speckle_noise_5",
+        "domainnet_clipart",
+        "domainnet_sketch",
+        "flowers102",
+        "pet",
+    ]
+    seeds = [0, 42, 3407]
+    save = True
+    get_best_performance(dataset_names=dataset_names, seeds=seeds, save=save)
 
-    # dataset_names = [
-    #     "cifar10",
-    #     "cifar100",
-    #     "cifar10_c_gaussian_noise_5",
-    #     "cifar10_c_motion_blur_5",
-    #     "cifar10_c_contrast_5",
-    #     "cifar10_c_snow_5",
-    #     "cifar10_c_speckle_noise_5",
-    #     "domainnet_clipart",
-    #     "domainnet_sketch",
-    #     "flowers102",
-    #     "pet",
-    # ]
-    # seeds = [0, 42, 3407]
-    # save = True
-    # get_robustness_all(dataset_names=dataset_names, seeds=seeds, save=save)
+    dataset_names = [
+        "cifar10",
+        "cifar100",
+        "cifar10_c_gaussian_noise_5",
+        "cifar10_c_motion_blur_5",
+        "cifar10_c_contrast_5",
+        "cifar10_c_snow_5",
+        "cifar10_c_speckle_noise_5",
+        "domainnet_clipart",
+        "domainnet_sketch",
+        "flowers102",
+        "pet",
+    ]
+    seeds = [0, 42, 3407]
+    save = True
+    get_robustness_all(dataset_names=dataset_names, seeds=seeds, save=save)
 
-    # dataset_names = [
-    #     "cifar10",
-    #     "cifar100",
-    #     "cifar10_c_gaussian_noise_5",
-    #     "cifar10_c_motion_blur_5",
-    #     "cifar10_c_contrast_5",
-    #     "cifar10_c_snow_5",
-    #     "cifar10_c_speckle_noise_5",
-    #     "domainnet_clipart",
-    #     "domainnet_sketch",
-    #     "flowers102",
-    #     "pet",
-    # ]
-    # save = True
-    # for seed in [0, 42, 3407]:
-    #     for dataset_name in dataset_names:
-    #         get_training_evolution(dataset_name=dataset_name, seed=seed, save=save)
+    dataset_names = [
+        "cifar10",
+        "cifar100",
+        "cifar10_c_gaussian_noise_5",
+        "cifar10_c_motion_blur_5",
+        "cifar10_c_contrast_5",
+        "cifar10_c_snow_5",
+        "cifar10_c_speckle_noise_5",
+        "domainnet_clipart",
+        "domainnet_sketch",
+        "flowers102",
+        "pet",
+    ]
+    save = True
+    for seed in [0, 42, 3407]:
+        for dataset_name in dataset_names:
+            get_training_evolution(dataset_name=dataset_name, seed=seed, save=save)
 
-    # save = True
-    # get_robustness_training_domainnet_sketch(save=save)
+    save = True
+    get_robustness_training_domainnet_sketch(save=save)
 
 
 # %% Main
