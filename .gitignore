@@ -6,6 +6,7 @@
 __pycache__
 
 # Saving directories
+assets/
 checkpoints/
 datasets/
 figures/
