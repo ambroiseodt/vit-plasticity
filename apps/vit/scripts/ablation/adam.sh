@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# Launch finetuning runs with Adam using apps/vit/train.py. It will create a dedicated
+# Launch finetuning with Adam using apps/vit/train.py. It will create a dedicated
 # tmux session on the specified device. To do so, run the following
 # command in the terminal from the root directory of the project.
 # ```bash
@@ -23,7 +23,7 @@ momentum=0.0
 
 # CIFAR100
 dataset_name="cifar100"
-session="rebuttal_adam_${dataset_name}"
+session="ablation_adam_${dataset_name}"
 device="cuda:0"
 
 # Runs
@@ -47,7 +47,7 @@ do
             fi
             # Rescale lr following Kumar et al., 2023
             adam_lr=$(awk "BEGIN {printf \"%.2e\", $lr / 100}")
-            log_dir="rebuttal/vit_${dataset_name}_adamw_seed_${seed}_lr_${adam_lr}_comp_${i}"
+            log_dir="ablation/vit_${dataset_name}_adamw_seed_${seed}_lr_${adam_lr}_comp_${i}"
             run="log_dir=${log_dir} optimizer=${optimizer} momentum=${momentum} seed=${seed} lr=${adam_lr} ${comps[$i]} device=${device}"
             command="python -m apps.vit.train config=apps/vit/configs/${dataset_name}.yaml ${run}"
             echo "Running command: ${command}"
@@ -60,7 +60,7 @@ done
 dataset_name="cifar10_c"
 corruption="gaussian_noise"
 severity=5
-session="rebuttal_adam_${dataset_name}_${corruption}"
+session="ablation_adam_${dataset_name}_${corruption}"
 device="cuda:1"
 
 # Runs
@@ -84,7 +84,7 @@ do
             fi
             # Rescale lr following Kumar et al., 2023
             adam_lr=$(awk "BEGIN {printf \"%.2e\", $lr / 100}")
-            log_dir="rebuttal/vit_${dataset_name}_${corruption}_${severity}_seed_${seed}_lr_${adam_lr}_comp_${i}"
+            log_dir="ablation/vit_${dataset_name}_${corruption}_${severity}_seed_${seed}_lr_${adam_lr}_comp_${i}"
             run="log_dir=${log_dir} optimizer=${optimizer} momentum=${momentum} dataset_name=${dataset_name}-corruption-${corruption}-severity-${severity} seed=${seed} lr=${adam_lr} ${comps[$i]} device=${device}"
             command="python -m apps.vit.train config=apps/vit/configs/${dataset_name}.yaml ${run}"
             echo "Running command: ${command}"
@@ -96,7 +96,7 @@ done
 # DOMAINNET
 dataset_name="domainnet"
 domain="clipart"
-session="rebuttal_adam_${dataset_name}_${domain}"
+session="ablation_adam_${dataset_name}_${domain}"
 device="cuda:2"
 
 # Runs
@@ -120,7 +120,7 @@ do
             fi
             # Rescale lr following Kumar et al., 2023
             adam_lr=$(awk "BEGIN {printf \"%.2e\", $lr / 100}")
-            log_dir="rebuttal/vit_${dataset_name}_${domain}_seed_${seed}_lr_${adam_lr}_comp_${i}"
+            log_dir="ablation/vit_${dataset_name}_${domain}_seed_${seed}_lr_${adam_lr}_comp_${i}"
             run="log_dir=${log_dir} optimizer=${optimizer} momentum=${momentum} dataset_name=${dataset_name}-${domain} seed=${seed} lr=${adam_lr} ${comps[$i]} device=${device}"
             command="python -m apps.vit.train config=apps/vit/configs/${dataset_name}.yaml ${run}"
             echo "Running command: ${command}"
@@ -132,7 +132,7 @@ done
 # DOMAINNET
 dataset_name="domainnet"
 domain="sketch"
-session="rebuttal_adam_${dataset_name}_${domain}"
+session="ablation_adam_${dataset_name}_${domain}"
 device="cuda:3"
 
 # Runs
@@ -156,7 +156,7 @@ do
             fi
             # Rescale lr following Kumar et al., 2023
             adam_lr=$(awk "BEGIN {printf \"%.2e\", $lr / 100}")
-            log_dir="rebuttal/vit_${dataset_name}_${domain}_seed_${seed}_lr_${adam_lr}_comp_${i}"
+            log_dir="ablation/vit_${dataset_name}_${domain}_seed_${seed}_lr_${adam_lr}_comp_${i}"
             run="log_dir=${log_dir} optimizer=${optimizer} momentum=${momentum} dataset_name=${dataset_name}-${domain} seed=${seed} lr=${adam_lr} ${comps[$i]} device=${device}"
             command="python -m apps.vit.train config=apps/vit/configs/${dataset_name}.yaml ${run}"
             echo "Running command: ${command}"
