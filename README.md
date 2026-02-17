@@ -13,7 +13,7 @@ Official implementation of the paper [Vision Transformer Finetuning Benefits fro
 
 ## Abstract
 > The smoothness of the transformer architecture has been extensively studied in the context of generalization, training stability, and adversarial robustness. However, its role in transfer learning remains poorly understood. In this paper, we analyze the ability of vision transformer components to adapt their outputs to changes in inputs, or, in other words, their *plasticity*. Defined as an average rate of change, it captures the sensitivity to input perturbation; in particular, a high plasticity implies low smoothness. We demonstrate through theoretical analysis and comprehensive experiments that this perspective provides principled guidance in choosing the components to prioritize during adaptation. A key takeaway for practitioners is that the high plasticity of the attention modules and feedforward layers consistently leads to better finetuning performance. Our findings depart from the prevailing assumption that smoothness is desirable, offering a novel perspective on the functional properties of transformers.
-<img width="1891" height="667" alt="intro" src="./assets/intro.png" />
+<img width="1891" height="667" alt="intro" src="https://github.com/user-attachments/assets/1b28656c-a84f-4577-bfcb-41cc2cf81139" />
 
 **Illustration**: The high plasticity of non-smooth components leads to greater finetuning benefits (relative gain).
 
