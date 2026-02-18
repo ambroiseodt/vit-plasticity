@@ -3,6 +3,7 @@
 *.egg-info
 *.vscode
 *.log
+*.ipynb
 __pycache__
 
 # Saving directories
