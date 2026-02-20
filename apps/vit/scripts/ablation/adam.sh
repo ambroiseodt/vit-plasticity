@@ -58,7 +58,7 @@ done
 
 # CIFAR10-C
 dataset_name="cifar10_c"
-corruption="gaussian_noise"
+corruption="motion_blur"
 severity=5
 session="ablation_adam_${dataset_name}_${corruption}"
 device="cuda:1"
