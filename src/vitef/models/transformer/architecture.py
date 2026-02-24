@@ -477,7 +477,7 @@ class TransformerBlock(nn.Module):
 
             # Attention norm
             out_res = self.attn_norm(out)
-            probes["attn_norm"] = move_to_cpu(out)
+            probes["attn_norm"] = move_to_cpu(out_res)
 
             # FC1
             out = self.ffn.fc1(out_res)
@@ -858,10 +858,6 @@ class Transformer(nn.Module):
         r"""
         Recover the outputs of ViT components across layers for the same input.
 
-        Since transformers are sequence-to-sequence models, those outputs are
-        sequences of tokens that can be seen as discrete probability measures [2, 3]
-        for the embedding layer and the components of each transformer block.
-
         Parameters
         ----------
         x: torch.Tensor of dimension (N, *)
@@ -870,12 +866,6 @@ class Transformer(nn.Module):
         Returns
         -------
         outputs: Dictionnary of output of each model's layer.
-
-        References
-        ----------
-        .. [2] G. de Bie et al. Stochastic Deep Networks. In ICML 2019.
-        .. [3] M. Sander et al. Sinkformers: Transformers with Doubly
-               Stochastic Attention. In AISTATS 2022.
         """
         outputs = {}
 
