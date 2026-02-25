@@ -5,7 +5,7 @@ Notes
 -----
 Our implementation allows to conduct linear probing on pretrained and finetuned models,
 and the log_dir argument from the config file indicates the checkpoint to recover.
-In addition, probes can be taken over any transformer components across layers .
+In addition, probes can be taken over any transformer components across layers.
 
 License
 -------
