@@ -1,6 +1,6 @@
 # Experiment
 log_dir: vit_train
-finetuned: True
+finetuned: False
 cls_pooling: False
 
 # Data
