@@ -436,7 +436,7 @@ def table_results(dataset_names: list, seeds: list) -> None:
         mean_linear_probing.append(linear_prob_acc)
         print(f"{dataset_name}: {np.round(linear_prob_acc * 100, 2)}")
 
-        # Finetuning resultst
+        # Finetuning results
         data = get_data(dataset_name, folder="finetuning")
         acc_mean[dataset_name] = {}
         acc_std[dataset_name] = {}
