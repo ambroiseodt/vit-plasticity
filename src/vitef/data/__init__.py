@@ -1,5 +1,5 @@
 r"""
-Codebase to preprocess data, notably images, but other modalies can be added similarly.
+Codebase to preprocess data, notably images, but other modalities can be added similarly.
 
 License
 -------
