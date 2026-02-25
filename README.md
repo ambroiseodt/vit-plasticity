@@ -30,7 +30,7 @@ Our codebase was tailored to study transformers finetuning; we highly encourage 
 ┃ ┃ ┣ 📄eval.py
 ┃ ┃ ┣ 📄linear_probing.py
 ┃ ┃ ┣ 📄train.py
-┃ ┃ ┗ utils.py
+┃ ┃ ┗ 📄utils.py
 ┃ ┣ 📂plots # Figures
 ┗ 📂src 
   ┗ 📂vitef # Core library
@@ -38,6 +38,7 @@ Our codebase was tailored to study transformers finetuning; we highly encourage 
     ┣ 📂model
     ┣ 📂monitor
     ┣ 📄__init__.py
+    ┣ 📄config.py
     ┣ 📄distributed.py
     ┣ 📄optim.py
     ┗ 📄utils.py
