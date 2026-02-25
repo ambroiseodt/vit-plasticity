@@ -20,7 +20,6 @@ import time
 from contextlib import ExitStack
 from dataclasses import asdict, dataclass
 
-import torch
 import torch.nn.functional as F
 from omegaconf import OmegaConf
 from torch.nn.utils import clip_grad_norm_
@@ -96,10 +95,6 @@ class TrainingConfig:
         # Ensure that the evaluation period is valid
         if (self.eval_period <= 0) or (self.eval_period > self.n_steps):
             self.eval_period = self.n_steps
-
-        # Restriction for cpu run
-        if not torch.cuda.is_available():
-            assert self.optim.fused is False, "Fused Adam is not supported on CPU."
 
         # Reproducibility
         if self.seed is None:
