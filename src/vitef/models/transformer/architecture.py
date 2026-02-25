@@ -903,7 +903,7 @@ class Transformer(nn.Module):
 
         # Transformer blocks
         for i, block in enumerate(self.blocks):
-            # Recover decomposition
+            # Recover probes
             out, block_probes = block._probes(out)
             for key in block_probes.keys():
                 probes[f"block{i}" + "_" + key] = block_probes[key]
