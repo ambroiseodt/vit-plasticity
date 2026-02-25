@@ -36,7 +36,8 @@ vit = [
     "accelerate",               
     "huggingface_hub[hf_xet]", 
     "timm",                    
-    "transformers",             
+    "transformers",     
+    "tiktoken",        
 ]
 
 visu = [
