@@ -60,11 +60,11 @@ class ImageNetCDatasetConfig:
         Transformation to apply to the images.
     """
 
-    save_dir: str = None
+    save_dir: str | None = None
     corruption_type: str = "brightness"
     corruption_severity: int = 1
     mode: str = "train"
-    transform: Any = None
+    transform: Any | None = None
 
     def __init__(self, **kwargs):
         self.__dict__.update((k, v) for k, v in kwargs.items() if k in self.__annotations__)

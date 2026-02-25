@@ -54,7 +54,7 @@ class TransformerConfig:
     length: int = 512
 
     # Patching parameters
-    patch_type: str = None
+    patch_type: str | None = None
     image_patch: str = "hybrid"
     patch_size: int = 16
     stride: int = 8
@@ -66,20 +66,20 @@ class TransformerConfig:
     pos_emb: bool = True
     freeze_pos: bool = False
     seq_len: int = -1
-    emb_dropout: float = None
+    emb_dropout: float | None = None
 
     # Attention parameters
     n_heads: int = -1
     attn_bias: bool = False
-    attn_dropout: float = None
+    attn_dropout: float | None = None
     flash: bool = False
     causal: bool = False
 
     # Feed-forward parameters
-    activation: float = "gelu"
-    ffn_dim: bool = None
+    activation: str = "gelu"
+    ffn_dim: int | None = None
     ffn_bias: bool = False
-    ffn_dropout: float = None
+    ffn_dropout: float | None = None
 
     # Transformer block parameter
     norm: str = "layer"
@@ -95,7 +95,7 @@ class TransformerConfig:
     cls_token: bool = False
     output_type: str = "sequence_to_sequence"
     weight_tying: bool = True
-    output_dropout: float = None
+    output_dropout: float | None = None
     n_classes: int = -1
     forecasting_horizon: int = -1
 

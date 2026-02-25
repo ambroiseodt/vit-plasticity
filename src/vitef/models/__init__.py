@@ -19,10 +19,10 @@ __all__ = [
     "GPT2",
     "GPT2Config",
     "PatchTST",
-    "PacthTSTConfig",
+    "PatchTSTConfig",
     "Transformer",
     "TransformerConfig",
-    "build_model",
     "ViT",
     "ViTConfig",
+    "build_model",
 ]

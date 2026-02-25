@@ -39,9 +39,9 @@ class OxfordIIITPetDatasetConfig:
         Transformation to apply to the images.
     """
 
-    save_dir: str = None
+    save_dir: str | None = None
     mode: str = "train"
-    transform: Any = None
+    transform: Any | None = None
 
     def __init__(self, **kwargs):
         self.__dict__.update((k, v) for k, v in kwargs.items() if k in self.__annotations__)
