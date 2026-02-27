@@ -25,6 +25,7 @@ dependencies = [
     "scipy",
     "torch",
     "torchvision",
+    "transformers", 
 ]
 
 [project.optional-dependencies]
@@ -35,9 +36,8 @@ dev = [
 vit = [
     "accelerate",               
     "huggingface_hub[hf_xet]", 
-    "timm",                    
-    "transformers",     
-    "tiktoken",        
+    "tiktoken",  
+    "timm",                          
 ]
 
 visu = [
