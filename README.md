@@ -58,7 +58,7 @@ Install Python in a new conda environment (be mindful to install a Python versio
 conda create -n myenv python==3.10
 conda activate myenv
 ```
-Install the repository (the vit dependencies are needed to use pretrained models):
+Install the repository (the vit dependencies are optional but allow for a faster download of pretrained weights):
 ```bash
 git clone <repo url>
 cd <repo path>
