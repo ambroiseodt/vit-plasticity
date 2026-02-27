@@ -101,7 +101,7 @@ class ImageNetCDatasetConfig:
             3,
             4,
             5,
-        ], f"Invalid severity {self.severity}. Options are from 1 to 5."
+        ], f"Invalid severity {self.corruption_severity}. Options are from 1 to 5."
 
         # Valid mode
         assert self.mode in ["train", "val", "test"], (
