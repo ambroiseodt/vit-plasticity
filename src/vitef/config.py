@@ -26,7 +26,7 @@ RESULT_DIR = ROOT_DIR / Path("results/")
 SAVING_DIR = ROOT_DIR / Path("savings/")
 
 
-def set_seed(seed: int) -> np.random.default_rng:
+def set_seed(seed: int) -> np.random.Generator:
     r"""Set seed for reproducibility.
 
     Parameters
