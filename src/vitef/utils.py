@@ -161,7 +161,7 @@ def load_jsonl_to_numpy(path: str, keys: list[str] = None) -> dict[str, np.ndarr
                 logger.warning(f"Error reading line {lineno}: {e}")
             for key in keys:
                 data[key].append(values.get(key, None))
-    result_dict = {k: np.array(v) for k, v in data.items()}
+    result_dict = {k(v) for k, v in data.items()}
     return result_dict
 
 
@@ -205,7 +205,7 @@ def json_serializable(object_dict: dict) -> dict:
 # ------------------------------------------------------------------------------
 
 
-def update_dict(value: np.array, dict_object: dict, key: Any) -> None:
+def update_dict(value, dict_object: dict, key: Any) -> None:
     r"""Update a dictionary with a new value."""
     if key in dict_object.keys():
         dict_object[key] = np.concatenate((dict_object[key], value), axis=0)
@@ -218,7 +218,7 @@ def update_dict(value: np.array, dict_object: dict, key: Any) -> None:
 # ------------------------------------------------------------------------------
 
 
-def deterministic_split(data: np.array, train_size: float = 0.8) -> tuple:
+def deterministic_split(data, train_size: float = 0.8) -> tuple:
     r"""Create a deterministic split of the original data."""
     n_samples = len(data)
     n_train = int(train_size * n_samples)
