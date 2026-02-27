@@ -58,15 +58,15 @@ Install Python in a new conda environment (be mindful to install a Python versio
 conda create -n myenv python==3.10
 conda activate myenv
 ```
-Install the repository (the vit dependencies are optional but allow for a faster download of pretrained weights):
+Install the repository (the ``pretrained" dependencies are optional but allow for a faster download of weights):
 ```bash
 git clone <repo url>
 cd <repo path>
-pip install -e ".[vit]"
+pip install -e ".[pretrained]"
 ```
 To install the development and visualization dependencies, you can swap the previous command for the following one:
 ```bash
-pip install -e ".[vit,dev,visu]"
+pip install -e ".[pretrained,dev,visu]"
 ```
 
 #### Accelerate specific instructions

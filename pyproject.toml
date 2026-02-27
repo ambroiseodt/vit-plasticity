@@ -34,7 +34,7 @@ dev = [
     "ruff",            
 ]
 
-vit = [
+pretrained = [
     "accelerate",               
     "huggingface_hub[hf_xet]", 
     "tiktoken",  
