@@ -70,7 +70,7 @@ pip install -e ".[pretrained,dev,visu]"
 ```
 
 #### Accelerate specific instructions
-To load models from HuggingFace Transformers library, the accelerate package is needed. After installing it, one needs to configure it. Follow the instruction online [configure-accelerate](https://huggingface.co/docs/accelerate/en/basic_tutorials/install), most likely you will execute the following command and answer the questions prompted to you:
+The accelerate package can be used to download and distribute models from the HuggingFace Transformers library. After installing it, one needs to configure it. Follow the instruction online [configure-accelerate](https://huggingface.co/docs/accelerate/en/basic_tutorials/install), most likely you will execute the following command and answer the questions prompted to you:
 ```bash
 accelerate config
 ```
