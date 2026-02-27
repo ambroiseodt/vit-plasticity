@@ -27,7 +27,7 @@ SAVING_DIR = ROOT_DIR / Path("savings/")
 
 
 def set_seed(seed: int) -> np.random.default_rng:
-    r"""Set seed for reprodubilty.
+    r"""Set seed for reproducibility.
 
     Parameters
     ----------
