@@ -179,7 +179,7 @@ def get_valid_tensor(x: Any) -> torch.Tensor:
     return x
 
 
-def get_numpy(x: torch.Tensor) -> np.array:
+def get_numpy(x: torch.Tensor) -> np.ndarray:
     r"""Detach tensor from graph to work on cpu and convert to numpy."""
     x = x.detach().cpu().numpy()
     if not x.ndim:
