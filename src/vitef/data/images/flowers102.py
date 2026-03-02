@@ -1,11 +1,6 @@
 r"""
 Oxford Flowers-102 Dataset.
 
-Notes
------
-To load the Flowers102 dataset, scipy is needed.
-
-
 License
 -------
 This source code is licensed under the MIT license found in the LICENSE file
