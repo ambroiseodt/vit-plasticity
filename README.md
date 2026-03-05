@@ -112,11 +112,7 @@ To compute the plasticity of ViT components on cifar10, run:
 ```bash
 python -m apps.vit.analysis run --dataset_name cifar10
 ```
-### Linear probing
-To launch a linear probing job according to linear_probing.yaml, run:
-```bash
-python -m apps.vit.linear_probing config=apps/vit/configs/linear_probing.yaml
-```
+
 ### Finetuning
 To launch a finetuning job on Cifar10, run:
 ```bash
@@ -127,9 +123,14 @@ To launch an evaluation job according to eval.yaml, run:
 ```bash
 python -m apps.vit.eval config=apps/vit/configs/eval.yaml
 ```
+### Linear probing
+To launch a linear probing job according to linear_probing.yaml, run:
+```bash
+python -m apps.vit.linear_probing config=apps/vit/configs/linear_probing.yaml
+```
 
 ## Reproducibility
-The experiments of our [paper](https://arxiv.org/pdf/2602.06883) can be reproduced using the scripts in ```apps/vit/scripts```. Launching them will automatically create dedicated ```tmux``` sessions for each group of experiments. After launching those scripts, the linear probing and finetuning performance can be recovered in a folder ```results/``` by running the following command from the root of the repository:
+The experiments of our [paper](https://arxiv.org/pdf/2602.06883) can be reproduced using the scripts in ```apps/vit/scripts```. Launching them will automatically create dedicated ```tmux``` sessions for each group of experiments. The finetuning experiments should be launched before the linear probing experiments since the latter depend on configuration files obtained after the finetuning runs such as the configuration files of finetuned models. After launching those scripts, the linear probing and finetuning performance can be recovered in a folder ```results/``` by running the following command from the root of the repository:
 ```bash
 python -m apps.plots.finetuning csv
 ```
