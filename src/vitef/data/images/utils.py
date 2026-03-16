@@ -113,7 +113,7 @@ def build_loader(
 
     # Create dataloader
     shuffle = force_shuffle or (mode == "train")
-    loader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, drop_last=drop_last)
+    loader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, drop_last=drop_last, num_workers=8)
 
     # Recover number of classes
     if return_n_classes:
