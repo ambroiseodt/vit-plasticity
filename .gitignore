@@ -4,6 +4,7 @@
 *.vscode
 *.log
 *.ipynb
+temp*
 __pycache__
 
 # Saving directories
