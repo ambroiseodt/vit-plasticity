@@ -61,7 +61,7 @@ dataset_name="cifar10_c"
 corruption="motion_blur"
 severity=5
 session="ablation_adam_${dataset_name}_${corruption}"
-device="cuda:1"
+device="cuda:0"
 
 # Runs
 tmux new-session -d -s ${session}
@@ -97,7 +97,7 @@ done
 dataset_name="domainnet"
 domain="clipart"
 session="ablation_adam_${dataset_name}_${domain}"
-device="cuda:2"
+device="cuda:0"
 
 # Runs
 tmux new-session -d -s ${session}
@@ -133,7 +133,7 @@ done
 dataset_name="domainnet"
 domain="sketch"
 session="ablation_adam_${dataset_name}_${domain}"
-device="cuda:3"
+device="cuda:0"
 
 # Runs
 tmux new-session -d -s ${session}

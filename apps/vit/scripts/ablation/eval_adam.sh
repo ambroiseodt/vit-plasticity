@@ -4,7 +4,7 @@
 # tmux session on the specified device. To do so, run the following
 # command in the terminal from the root directory of the project.
 # ```bash
-# $ bash <path_to_file_folder>/eval.sh
+# $ bash <path_to_file_folder>/eval_adam.sh
 # ```
 
 # Define components to freeze
@@ -43,7 +43,7 @@ do
             fi
             # Rescale lr following Kumar et al., 2023
             adam_lr=$(awk "BEGIN {printf \"%.2e\", $lr / 100}")
-            log_dir="rebuttal/vit_${dataset_name}_adamw_seed_${seed}_lr_${adam_lr}_comp_${i}"
+            log_dir="ablation/vit_${dataset_name}_adamw_seed_${seed}_lr_${adam_lr}_comp_${i}"
             run="log_dir=${log_dir} device=${device}"
             command="python -m apps.vit.eval config=apps/vit/configs/eval.yaml ${run}"
             echo "Running command: ${command}"
@@ -115,7 +115,7 @@ do
             fi
             # Rescale lr following Kumar et al., 2023
             adam_lr=$(awk "BEGIN {printf \"%.2e\", $lr / 100}")
-            log_dir="rebuttal/vit_${dataset_name}_${domain}_seed_${seed}_lr_${adam_lr}_comp_${i}"
+            log_dir="ablation/vit_${dataset_name}_${domain}_seed_${seed}_lr_${adam_lr}_comp_${i}"
             run="log_dir=${log_dir} device=${device}"
             command="python -m apps.vit.eval config=apps/vit/configs/eval.yaml ${run}"
             echo "Running command: ${command}"
@@ -148,7 +148,7 @@ do
             fi
             # Rescale lr following Kumar et al., 2023
             adam_lr=$(awk "BEGIN {printf \"%.2e\", $lr / 100}")
-            log_dir="rebuttal/vit_${dataset_name}_${domain}_seed_${seed}_lr_${adam_lr}_comp_${i}"
+            log_dir="ablation/vit_${dataset_name}_${domain}_seed_${seed}_lr_${adam_lr}_comp_${i}"
             run="log_dir=${log_dir} device=${device}"
             command="python -m apps.vit.eval config=apps/vit/configs/eval.yaml ${run}"
             echo "Running command: ${command}"
