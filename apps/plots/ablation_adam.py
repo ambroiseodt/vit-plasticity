@@ -197,7 +197,7 @@ def get_evals_csv(dataset_name: str, seeds: list, lrs: list) -> None:
 
     # Save results
     df = pd.DataFrame(all_results)
-    results_path = RESULT_DIR / "ablation/finetuning"
+    results_path = RESULT_DIR / "ablation/finetuning/adam"
     if not results_path.exists():
         results_path.mkdir(parents=True, exist_ok=True)
     path = results_path / f"{dataset_name}.csv"
@@ -337,7 +337,7 @@ def table_results(dataset_names: list, seeds: list) -> None:
     relative_gain = {}
     for dataset_name in dataset_names:
         # Finetuning results
-        data = get_data(dataset_name, folder="ablation/finetuning")
+        data = get_data(dataset_name, folder="ablation/finetuning/adam")
         acc_mean[dataset_name] = {}
         acc_std[dataset_name] = {}
         relative_gain[dataset_name] = {}
@@ -409,7 +409,7 @@ def get_adamw_robustness_training_domainnet_sketch(
     # Robustness on all seeds and learning rates
     seeds = [0]
     ax = axes[0]
-    adam_data = get_data(dataset_name, folder="ablation/finetuning")
+    adam_data = get_data(dataset_name, folder="ablation/finetuning/adam")
     adam_results = {}
     for trainable_component in VIT_COMPONENTS_MAP.keys():
         adam_results[trainable_component] = []
