@@ -37,6 +37,7 @@ dev = [
 pretrained = [
     "accelerate",               
     "huggingface_hub[hf_xet]", 
+    "peft",
     "tiktoken",  
     "timm",                          
 ]
