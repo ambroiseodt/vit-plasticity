@@ -1,5 +1,5 @@
 r"""
-Oxford-IIIT Pet Dataset.
+Cifar10 Dataset.
 
 License
 -------
@@ -12,17 +12,18 @@ in the root directory of this source tree.
 from dataclasses import dataclass
 from typing import Any
 
+import numpy as np
 import torchvision
-from PIL import Image
+import torchvision.transforms.functional as F
 from torch.utils.data import Dataset
 
 from ...config import DATASET_DIR
 
 
 @dataclass
-class OxfordIIITPetDatasetConfig:
+class Cifar10DatasetConfig:
     r"""
-    Oxford-IIIT Pet configuration file.
+    Cifar10 configuration file.
 
     Parameters
     ----------
@@ -45,15 +46,15 @@ class OxfordIIITPetDatasetConfig:
     def __post_init__(self):
         assert self.mode in ["train", "test"], f"Invalid mode {self.mode}. Options are 'train' and 'test."
         if self.save_dir is None:
-            self.save_dir = DATASET_DIR / "pet"
+            self.save_dir = DATASET_DIR / "cifar10"
 
 
-class OxfordIIITPetDataset(Dataset):
+class Cifar10Dataset(Dataset):
     r"""
-    Oxford-IIIT Pet dataset from [1]_.
+    Cifar10 dataset from [1]_.
 
-    It consists of 37 category of pets with around 200 images for each class.
-    The images have a large variations in scale, pose and lighting.
+    It consits of 60_000 32x32 color images in 10 classes, with 6_000 images per class.
+    There are 50_000 training images and 10_000 test images.
 
     Parameters
     ----------
@@ -67,37 +68,51 @@ class OxfordIIITPetDataset(Dataset):
 
     Notes
     ----------
-    Oxford-IIIT Pet was created by Omkar M Parkhi, Andrea Vedaldi, Andrew Zisserman, C. V. Jawahar
-    Official website: https://www.robots.ox.ac.uk/~vgg/data/pets/.
+    CIFAR-10 was created by Alex Krizhevsky, Vinod Nair, and Geoffrey Hinton.
+    Official website: https://www.cs.toronto.edu/~kriz/cifar.html.
 
     References
     ----------
-    .. [1] O. M. Parkhi et al. Cats and Dogs. In CVPR 2012
+    .. [1] A. Krizhevsky. Learning Multiple Layers of Features from Tiny Images. Technical Report, 2009
     """
 
-    def __init__(self, config: OxfordIIITPetDatasetConfig):
+    def __init__(self, config: Cifar10DatasetConfig):
         super().__init__()
-        split = "trainval" if config.mode == "train" else "test"
-        dataset = torchvision.datasets.OxfordIIITPet(
+        train = True if config.mode == "train" else False
+        dataset = torchvision.datasets.CIFAR10(
             root=config.save_dir,
-            split=split,
+            train=train,
             download=True,
         )
 
-        # Recover dataset
-        self.samples = dataset._images
-        self.targets = dataset._labels
-        self.n_classes = 37
+        # Recover images and corresponding labels
+        self.data = np.asarray(dataset.data)
+        self.targets = np.asarray(dataset.targets)
+        self.n_classes = 10
+
+        # Deterministic low-data subsampling
+        sample_size = 1000
+        if train:
+            samples_per_class = sample_size // self.n_classes
+            indices = []
+            st0 = np.random.get_state()
+            np.random.seed(42)
+            for c in range(self.n_classes):
+                class_indices = np.where(self.targets == c)[0]
+                class_indices = np.random.permutation(class_indices)
+                indices.extend(class_indices[:samples_per_class])
+            np.random.set_state(st0)
+            self.data = self.data[indices]
+            self.targets = self.targets[indices]
 
         # Recover transform
         self.transform = config.transform
 
     def __len__(self):
-        return len(self.samples)
+        return len(self.data)
 
     def __getitem__(self, idx: int):
-        path = self.samples[idx]
-        sample = Image.open(path).convert("RGB")
+        sample = F.to_pil_image(self.data[idx])
         label = self.targets[idx]
         if self.transform is not None:
             sample = self.transform(sample)
@@ -105,4 +120,4 @@ class OxfordIIITPetDataset(Dataset):
         return sample, label
 
     def __repr__(self):
-        return f"Dataset with {len(self.samples)} images."
+        return f"Dataset with {len(self.data)} images."

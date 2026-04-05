@@ -232,6 +232,12 @@ def build_dataset(config: dict[str, Any]) -> Dataset:
             dataset_type = Cifar10Dataset
             config_obj = build_with_type_check(Cifar10DatasetConfig, config)
 
+        case "cifar10ld":
+            from vitef.data.images.cifar10ld import Cifar10Dataset, Cifar10DatasetConfig
+
+            dataset_type = Cifar10Dataset
+            config_obj = build_with_type_check(Cifar10DatasetConfig, config)
+
         case x if "cifar10_c" in x:
             from vitef.data.images.cifar10_c import Cifar10CDataset, Cifar10CDatasetConfig
 
@@ -297,6 +303,12 @@ def build_dataset(config: dict[str, Any]) -> Dataset:
 
         case "flowers102":
             from vitef.data.images.flowers102 import Flowers102Dataset, Flowers102DatasetConfig
+
+            dataset_type = Flowers102Dataset
+            config_obj = build_with_type_check(Flowers102DatasetConfig, config)
+
+        case "flold":
+            from vitef.data.images.flold import Flowers102Dataset, Flowers102DatasetConfig
 
             dataset_type = Flowers102Dataset
             config_obj = build_with_type_check(Flowers102DatasetConfig, config)
