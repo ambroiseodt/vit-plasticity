@@ -17,36 +17,36 @@ declare -a comps=("components"=[]
                  "components=["emb","attn_norm","mha","ffn_norm","ffn_fc1"]"
                 )
 
-# CIFAR10
-session="eval_cifar10ld"
-dataset_name="cifar10ld"
-device="cuda:3"
+# # CIFAR10
+# session="eval_cifar10ld"
+# dataset_name="cifar10ld"
+# device="cuda:4"
 
-# Runs
-tmux new-session -d -s ${session}
-for seed in \
-    0 
-do
-    for lr in \
-        1e-3 \
-        3e-3 \
-        1e-2 \
-        3e-2 
-    do
-        for i in "${!comps[@]}"
-        do
-            # Skip the emb finetuning
-            if [[ "$i" == 1 ]]; then
-                continue
-            fi
-            log_dir="ablation/vit_${dataset_name}_seed_${seed}_lr_${lr}_comp_${i}"
-            run="log_dir=${log_dir} device=${device}"
-            command="python -m apps.vit.eval config=apps/vit/configs/eval.yaml ${run}"
-            echo "Running command: ${command}"
-            tmux send-keys -t ${session} "${command}" C-m
-        done        
-    done
-done
+# # Runs
+# tmux new-session -d -s ${session}
+# for seed in \
+#     0 
+# do
+#     for lr in \
+#         1e-3 \
+#         3e-3 \
+#         1e-2 \
+#         3e-2 
+#     do
+#         for i in "${!comps[@]}"
+#         do
+#             # Skip the emb finetuning
+#             if [[ "$i" == 1 ]]; then
+#                 continue
+#             fi
+#             log_dir="ablation/vit_${dataset_name}_seed_${seed}_lr_${lr}_comp_${i}"
+#             run="log_dir=${log_dir} device=${device}"
+#             command="python -m apps.vit.eval config=apps/vit/configs/eval.yaml ${run}"
+#             echo "Running command: ${command}"
+#             tmux send-keys -t ${session} "${command}" C-m
+#         done        
+#     done
+# done
 
 # # CIFAR100
 # session="eval_cifar100ld"
@@ -113,104 +113,104 @@ done
 #     done
 # done
 
-# CIFAR10-C
-dataset_name="cifar10ld_c"
-corruption="snow"
-severity=5
-session="eval_cifar10ldc_snow"
-device="cuda:3"
+# # CIFAR10-C
+# dataset_name="cifar10ld_c"
+# corruption="snow"
+# severity=5
+# session="eval_cifar10ldc_snow"
+# device="cuda:4"
 
-# Runs
-tmux new-session -d -s ${session}
-for seed in \
-    0 
-do
-    for lr in \
-        1e-3 \
-        3e-3 \
-        1e-2 \
-        3e-2 
-    do
-        for i in "${!comps[@]}"
-        do
-            # Skip the emb finetuning
-            if [[ "$i" == 1 ]]; then
-                continue
-            fi
-            log_dir="ablation/vit_${dataset_name}_${corruption}_${severity}_seed_${seed}_lr_${lr}_comp_${i}"
-            run="log_dir=${log_dir} device=${device}"
-            command="python -m apps.vit.eval config=apps/vit/configs/eval.yaml ${run}"
-            echo "Running command: ${command}"
-            tmux send-keys -t ${session} "${command}" C-m
-        done        
-    done
-done
+# # Runs
+# tmux new-session -d -s ${session}
+# for seed in \
+#     0 
+# do
+#     for lr in \
+#         1e-3 \
+#         3e-3 \
+#         1e-2 \
+#         3e-2 
+#     do
+#         for i in "${!comps[@]}"
+#         do
+#             # Skip the emb finetuning
+#             if [[ "$i" == 1 ]]; then
+#                 continue
+#             fi
+#             log_dir="ablation/vit_${dataset_name}_${corruption}_${severity}_seed_${seed}_lr_${lr}_comp_${i}"
+#             run="log_dir=${log_dir} device=${device}"
+#             command="python -m apps.vit.eval config=apps/vit/configs/eval.yaml ${run}"
+#             echo "Running command: ${command}"
+#             tmux send-keys -t ${session} "${command}" C-m
+#         done        
+#     done
+# done
 
-# CIFAR10-C
-dataset_name="cifar10ld_c"
-corruption="contrast"
-severity=5
-session="eval_cifar10ldc_contrast"
-device="cuda:3"
+# # CIFAR10-C
+# dataset_name="cifar10ld_c"
+# corruption="contrast"
+# severity=5
+# session="eval_cifar10ldc_contrast"
+# device="cuda:4"
 
-# Runs
-tmux new-session -d -s ${session}
-for seed in \
-    0 
-do
-    for lr in \
-        1e-3 \
-        3e-3 \
-        1e-2 \
-        3e-2 
-    do
-        for i in "${!comps[@]}"
-        do
-            # Skip the emb finetuning
-            if [[ "$i" == 1 ]]; then
-                continue
-            fi
-            log_dir="ablation/vit_${dataset_name}_${corruption}_${severity}_seed_${seed}_lr_${lr}_comp_${i}"
-            run="log_dir=${log_dir} device=${device}"
-            command="python -m apps.vit.eval config=apps/vit/configs/eval.yaml ${run}"
-            echo "Running command: ${command}"
-            tmux send-keys -t ${session} "${command}" C-m
-        done        
-    done
-done
+# # Runs
+# tmux new-session -d -s ${session}
+# for seed in \
+#     0 
+# do
+#     for lr in \
+#         1e-3 \
+#         3e-3 \
+#         1e-2 \
+#         3e-2 
+#     do
+#         for i in "${!comps[@]}"
+#         do
+#             # Skip the emb finetuning
+#             if [[ "$i" == 1 ]]; then
+#                 continue
+#             fi
+#             log_dir="ablation/vit_${dataset_name}_${corruption}_${severity}_seed_${seed}_lr_${lr}_comp_${i}"
+#             run="log_dir=${log_dir} device=${device}"
+#             command="python -m apps.vit.eval config=apps/vit/configs/eval.yaml ${run}"
+#             echo "Running command: ${command}"
+#             tmux send-keys -t ${session} "${command}" C-m
+#         done        
+#     done
+# done
 
-# CIFAR10-C
-dataset_name="cifar10ld_c"
-corruption="speckle_noise"
-severity=5
-session="eval_cifar10ldc_speckle_noise"
-device="cuda:3"
+# # CIFAR10-C
+# dataset_name="cifar10ld_c"
+# corruption="speckle_noise"
+# severity=5
+# session="eval_cifar10ldc_speckle_noise"
+# device="cuda:4"
 
-# Runs
-tmux new-session -d -s ${session}
-for seed in \
-    0 
-do
-    for lr in \
-        1e-3 \
-        3e-3 \
-        1e-2 \
-        3e-2 
-    do
-        for i in "${!comps[@]}"
-        do
-            # Skip the emb finetuning
-            if [[ "$i" == 1 ]]; then
-                continue
-            fi
-            log_dir="ablation/vit_${dataset_name}_${corruption}_${severity}_seed_${seed}_lr_${lr}_comp_${i}"
-            run="log_dir=${log_dir} device=${device}"
-            command="python -m apps.vit.eval config=apps/vit/configs/eval.yaml ${run}"
-            echo "Running command: ${command}"
-            tmux send-keys -t ${session} "${command}" C-m
-        done        
-    done
-done
+# # Runs
+# tmux new-session -d -s ${session}
+# for seed in \
+#     0 
+# do
+#     for lr in \
+#         1e-3 \
+#         3e-3 \
+#         1e-2 \
+#         3e-2 
+#     do
+#         for i in "${!comps[@]}"
+#         do
+#             # Skip the emb finetuning
+#             if [[ "$i" == 1 ]]; then
+#                 continue
+#             fi
+#             log_dir="ablation/vit_${dataset_name}_${corruption}_${severity}_seed_${seed}_lr_${lr}_comp_${i}"
+#             run="log_dir=${log_dir} device=${device}"
+#             command="python -m apps.vit.eval config=apps/vit/configs/eval.yaml ${run}"
+#             echo "Running command: ${command}"
+#             tmux send-keys -t ${session} "${command}" C-m
+#         done        
+#     done
+# done
 
 # # PET
 # session="eval_ptld"
@@ -246,7 +246,7 @@ done
 # FLOWERS102
 session="eval_flold"
 dataset_name="flold"
-device="cuda:3"
+device="cuda:4"
 
 # Runs
 tmux new-session -d -s ${session}
@@ -254,10 +254,11 @@ for seed in \
     0 
 do
     for lr in \
-        1e-3 \
-        3e-3 \
-        1e-2 \
-        3e-2 
+        3e-2 \
+        # 1e-3 \
+        # 3e-3 \
+        # 1e-2 \
+        # 3e-2 
     do
         for i in "${!comps[@]}"
         do
