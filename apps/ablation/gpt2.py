@@ -307,7 +307,7 @@ class AnalysisConfig:
     seq_len: int = 128
 
     # Data
-    dataset_name: str = "ag_news"
+    dataset_name: str = "wikitext"
     batch_size: int = 128
     n_steps: int = 100
 
@@ -350,9 +350,9 @@ def analysis(config: AnalysisConfig) -> None:
 
     logger.info("Building dataloaders.")
 
-    # Subset of the pretraining data: WikiText-103 (analogous to ImageNet)
+    # Subset of the pretraining data: AG News
     loader_config = {
-        "dataset_name": "wikitext",
+        "dataset_name": "ag_news",
         "batch_size": config.batch_size,
         "mode": "test",
         "seq_len": config.seq_len,
@@ -360,7 +360,7 @@ def analysis(config: AnalysisConfig) -> None:
     }
     loader1 = build_text_loader(config=loader_config)
 
-    # Subset of the downstream data: AG News (analogous to CIFAR-10)
+    # Subset of the downstream data: WikiText-103
     loader_config = {
         "dataset_name": config.dataset_name,
         "batch_size": config.batch_size,
@@ -459,7 +459,7 @@ def analysis(config: AnalysisConfig) -> None:
 
 def run_analysis(
     model_size: str = "1b",
-    dataset_name: str = "ag_news",
+    dataset_name: str = "wikitext",
     seq_len: int = 128,
     batch_size: int = 128,
     n_steps: int = 100,
