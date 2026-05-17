@@ -166,6 +166,158 @@ def table_results() -> None:
 
 def get_plasticity_ablation(
     save: bool = False,
+    ncol: int = 5,  # Changed to 5 since you have 5 components
+) -> None:
+    r"""Plot the plasticity of ViT components."""
+    # Figure parameters
+    width = 4.2
+    height = 4
+    ncols = 2
+    figsize = (ncols * width, height)
+
+    # Use constrained_layout instead of tight_layout to handle top legend space cleanly
+    fig, axes = plt.subplots(ncols=ncols, figsize=figsize)  # , layout="constrained")
+
+    # Define components in the exact order they should appear in the legend
+    component_order = ["MHA", "FC1", "FC2", "LN2", "LN1"]
+    colors = [COLORS[key] for key in component_order]
+
+    # Plot theory validation for Dinov3-7B
+    ax = axes[0]
+    model_name = "dinov3_vit7b16"
+    dataset_name = "cifar10"
+    ax.set_title("DINOv3 \n", fontsize=19)
+
+    config = get_config(dataset_name=dataset_name, model_name=model_name)
+    dict_df = get_plasticity(path=SAVE_DIR / config)
+    plasticity_rank = [5, 1, 4, 2, 3]
+
+    yname = "Rates of Change"
+    df = {"Rank": [], yname: [], "Component": []}
+
+    # Extract dictionary keys safely matching the order of dict_df
+    ordered_keys = ["attn", "ffn_fc1", "ffn_fc2", "ffn_norm", "attn_norm"]
+    for j, key in enumerate(ordered_keys):
+        ratio = np.asarray(dict_df[key])
+        mean = np.mean(ratio, axis=-1)
+        component_name = ["MHA", "FC1", "FC2", "LN2", "LN1"][j]
+        for val in mean:
+            df["Rank"].append(j)
+            df[yname].append(val)
+            df["Component"].append(component_name)
+
+    sns.boxplot(
+        data=df,
+        x="Rank",
+        y=yname,
+        hue="Component",
+        hue_order=component_order,
+        palette=colors,
+        legend=False,
+        boxprops={"edgecolor": "#333333", "linewidth": 0.5},
+        whiskerprops={"color": "#333333", "linewidth": 0.5, "linestyle": "--"},
+        capprops={"color": "#333333", "linewidth": 0.5},
+        medianprops={"color": "#333333", "linewidth": 0.5},
+        showfliers=False,
+        ax=ax,
+    )
+
+    # Visualization
+    ax.grid(axis="y", alpha=ALPHA_GRID, lw=1.3)
+    ax.spines["left"].set_linewidth(1)
+    ax.spines["right"].set_linewidth(1)
+    ax.spines["top"].set_linewidth(1)
+    ax.spines["bottom"].set_linewidth(1)
+    ax.tick_params(axis="both", direction="out", length=5, width=1)
+    ax.set_xticks(range(5))
+    ax.set_xticklabels(range(1, 6))
+    box_yticks = [1, 10, 19]
+    ax.set_ylim(ymin_manual, box_yticks[-1])
+    ax.set_yticks(box_yticks)
+    ax.set_yticklabels(np.array(box_yticks, dtype=int))
+    ax.set_xlabel(r"Theoretical Plasticity Rank ($\downarrow$)", fontsize=FONTSIZE)
+    ax.set_ylabel(r"Plasticity $\mathscr{P}(f)$", fontsize=FONTSIZE)
+    sns.despine(fig, ax, trim=True, right=True, offset=10)
+
+    # Plot theory validation for GPT2
+    ax = axes[1]
+    model_name = "gpt2_base"
+    dataset_name = "wikitext"
+    ax.set_title("GPT-2 \n", fontsize=19)
+
+    config = get_config(dataset_name=dataset_name, model_name=model_name)
+    dict_df = get_plasticity(path=SAVE_DIR / config)
+
+    df = {"Rank": [], yname: [], "Component": []}
+    for j, key in enumerate(ordered_keys):
+        ratio = np.asarray(dict_df[key])
+        mean = np.mean(ratio, axis=-1)
+        component_name = ["MHA", "FC1", "FC2", "LN2", "LN1"][j]
+        for val in mean:
+            df["Rank"].append(j)
+            df[yname].append(val)
+            df["Component"].append(component_name)
+
+    sns.boxplot(
+        data=df,
+        x="Rank",
+        y=yname,
+        hue="Component",
+        hue_order=component_order,
+        palette=colors,
+        legend="brief",
+        boxprops={"edgecolor": "#333333", "linewidth": 0.5},
+        whiskerprops={"color": "#333333", "linewidth": 0.5, "linestyle": "--"},
+        capprops={"color": "#333333", "linewidth": 0.5},
+        medianprops={"color": "#333333", "linewidth": 0.5},
+        showfliers=False,
+        ax=ax,
+    )
+
+    # Visualization
+    ax.grid(axis="y", alpha=ALPHA_GRID, lw=1.3)
+    ax.spines["left"].set_linewidth(1)
+    ax.spines["right"].set_linewidth(1)
+    ax.spines["top"].set_linewidth(1)
+    ax.spines["bottom"].set_linewidth(1)
+    ax.tick_params(axis="both", direction="out", length=5, width=1)
+    ax.set_xticks(range(5))
+    ax.set_xticklabels(range(1, 6))
+    box_yticks = [1, 10, 19]
+    ax.set_ylim(ymin_manual, box_yticks[-1])
+    ax.set_yticks(box_yticks)
+    ax.set_yticklabels(np.array(box_yticks, dtype=int))
+    ax.set_xlabel(r"Theoretical Plasticity Rank ($\downarrow$)", fontsize=FONTSIZE)
+    ax.set_ylabel(r"Plasticity $\mathscr{P}(f)$", fontsize=FONTSIZE)
+    sns.despine(fig, ax, trim=True, right=True, offset=10)
+
+    # Extract handles and labels cleanly before removing the sub-plot legend
+    lines, labels = ax.get_legend_handles_labels()
+    ax.get_legend().remove()
+
+    # Global figure
+    fig.legend(
+        lines,
+        labels,
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.12),
+        fancybox=True,
+        borderaxespad=0,
+        ncol=ncol,
+        shadow=False,
+        frameon=True,
+        handlelength=1.9,
+        fontsize=FONTSIZE,
+    )
+
+    if save:
+        figname = "plasticity_ablation"
+        save_plot(figname=figname)
+    plt.show()
+
+
+def get_plasticity_ablation_(
+    save: bool = False,
     ncol: int = 6,
 ) -> None:
     r"""Plot the plasticity of ViT components."""
@@ -173,12 +325,11 @@ def get_plasticity_ablation(
     width = 4.2
     height = 4
     ncols = 2
-    nrows = 2
-    figsize = (ncols * width, nrows * height)
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
+    figsize = (ncols * width, height)
+    fig, axes = plt.subplots(ncols=ncols, figsize=figsize)
 
     # Plot theory validation for Dinov3-7B
-    ax = axes[0, 0]
+    ax = axes[0]
     model_name = "dinov3_vit7b16"
     dataset_name = "cifar10"
     ax.set_title("DINOv3 \n", fontsize=19)
@@ -228,44 +379,8 @@ def get_plasticity_ablation(
     ax.set_ylabel(r"Plasticity $\mathscr{P}(f)$", fontsize=FONTSIZE)
     sns.despine(fig, ax, trim=True, right=True, offset=10)
 
-    # Plot evolution over layers for Dinov3-7B
-    ax = axes[1, 0]
-    model_name = "dinov3_vit7b16"
-    for j, key in enumerate(dict_df.keys()):
-        ratio = np.asarray(dict_df[key])
-        mean = np.mean(ratio, axis=-1)
-        std = np.std(ratio, axis=-1)
-        ci = 1.96 * std / np.sqrt(ratio.shape[-1])
-        trainable_component = VIT_COMPONENTS[j]
-        n_layers = len(mean)
-        x_range = np.arange(n_layers) / (n_layers - 1) * 100
-        ax.plot(
-            x_range,
-            mean,
-            linewidth=LINEWIDTH,
-            color=COLORS[trainable_component],
-            label=VIT_COMPONENTS[j],
-        )
-        ax.fill_between(x_range, mean - ci, mean + ci, color=COLORS[trainable_component], alpha=ALPHA_CI)
-
-        # Visualization
-        ax.grid(alpha=ALPHA_GRID, lw=1.3)
-        ax.spines["left"].set_linewidth(1)
-        ax.spines["right"].set_linewidth(1)
-        ax.spines["top"].set_linewidth(1)
-        ax.spines["bottom"].set_linewidth(1)
-        ax.tick_params(axis="both", direction="out", length=5, width=1)
-        ax.set_xticks([0, 50, 100])
-        curve_yticks = [1, 13, 25]
-        ax.set_ylim(ymin_manual, curve_yticks[-1])
-        ax.set_yticks(curve_yticks)
-        ax.set_yticklabels(np.array(curve_yticks, dtype=int))
-        ax.set_xlabel("Layer Depth (%)", fontsize=FONTSIZE)
-        ax.set_ylabel(r"Plasticity $\mathscr{P}(f)$", fontsize=FONTSIZE)
-    sns.despine(fig, ax, trim=True, right=True, offset=10)
-
     # Plot theory validation for GPT2
-    ax = axes[0, 1]
+    ax = axes[1]
     model_name = "gpt2_base"
     dataset_name = "wikitext"
     ax.set_title("GPT-2 \n", fontsize=19)
@@ -298,61 +413,8 @@ def get_plasticity_ablation(
         ax=ax,
     )
 
-    # Visualization
-    ax.grid(axis="y", alpha=ALPHA_GRID, lw=1.3)
-    ax.spines["left"].set_linewidth(1)
-    ax.spines["right"].set_linewidth(1)
-    ax.spines["top"].set_linewidth(1)
-    ax.spines["bottom"].set_linewidth(1)
-    ax.tick_params(axis="both", direction="out", length=5, width=1)
-    ax.set_xticks(range(5))
-    ax.set_xticklabels(range(1, 6))
-    box_yticks = [1, 8, 15]
-    ax.set_ylim(ymin_manual, box_yticks[-1])
-    ax.set_yticks(box_yticks)
-    ax.set_yticklabels(np.array(box_yticks, dtype=int))
-    ax.set_xlabel(r"Theoretical Plasticity Rank ($\downarrow$)", fontsize=FONTSIZE)
-    ax.set_ylabel(r"Plasticity $\mathscr{P}(f)$", fontsize=FONTSIZE)
-    sns.despine(fig, ax, trim=True, right=True, offset=10)
-
-    # Plot evolution over layers for GPT2
-    ax = axes[1, 1]
-    model_name = "gpt2"
-    for j, key in enumerate(dict_df.keys()):
-        ratio = np.asarray(dict_df[key])
-        mean = np.mean(ratio, axis=-1)
-        std = np.std(ratio, axis=-1)
-        ci = 1.96 * std / np.sqrt(ratio.shape[-1])
-        trainable_component = VIT_COMPONENTS[j]
-        n_layers = len(mean)
-        x_range = np.arange(n_layers) / (n_layers - 1) * 100
-        ax.plot(
-            x_range,
-            mean,
-            linewidth=LINEWIDTH,
-            color=COLORS[trainable_component],
-            label=VIT_COMPONENTS[j],
-        )
-        ax.fill_between(x_range, mean - ci, mean + ci, color=COLORS[trainable_component], alpha=ALPHA_CI)
-
-        # Visualization
-        ax.grid(alpha=ALPHA_GRID, lw=1.3)
-        ax.spines["left"].set_linewidth(1)
-        ax.spines["right"].set_linewidth(1)
-        ax.spines["top"].set_linewidth(1)
-        ax.spines["bottom"].set_linewidth(1)
-        ax.tick_params(axis="both", direction="out", length=5, width=1)
-        ax.set_xticks([0, 50, 100])
-        ax.set_ylim(ymin_manual, curve_yticks[-1])
-        curve_yticks = [1, 13, 25]
-        ax.set_yticks(curve_yticks)
-        ax.set_yticklabels(np.array(curve_yticks, dtype=int))
-        ax.set_xlabel("Layer Depth (%)", fontsize=FONTSIZE)
-        ax.set_ylabel(r"Plasticity $\mathscr{P}(f)$", fontsize=FONTSIZE)
-    sns.despine(fig, ax, trim=True, right=True, offset=10)
-
     # Common legend
-    ax = axes[1, 0]
+    ax = axes[1]
     lines_labels = [ax.get_legend_handles_labels()]
     lines, labels = [sum(lol, []) for lol in zip(*lines_labels, strict=False)]
     ordered_index = [1, 3, 4, 2, 0]
