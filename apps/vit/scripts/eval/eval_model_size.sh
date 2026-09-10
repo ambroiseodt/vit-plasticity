@@ -22,7 +22,7 @@ model_name="large"
 dataset_name="domainnet"
 domain="clipart"
 session="eval_model_size_${model_name}_${dataset_name}_${domain}"
-device="cuda:4"
+device="cuda:0"
 batch_size=512
 
 # Runs

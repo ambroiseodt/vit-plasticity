@@ -20,7 +20,7 @@ declare -a comps=("components"=[]
 # CIFAR100
 session="eval_adam_cifar100"
 dataset_name="cifar100"
-device="cuda:4"
+device="cuda:0"
 
 # Runs
 tmux new-session -d -s ${session}
@@ -58,7 +58,7 @@ dataset_name="cifar10_c"
 corruption="motion_blur"
 severity=5
 session="eval_adam_${dataset_name}_${corruption}"
-device="cuda:4"
+device="cuda:0"
 
 # Runs
 tmux new-session -d -s ${session}
@@ -94,7 +94,7 @@ done
 dataset_name="domainnet"
 domain="clipart"
 session="eval_adam_${dataset_name}_${domain}"
-device="cuda:4"
+device="cuda:0"
 
 # Runs
 tmux new-session -d -s ${session}
@@ -127,7 +127,7 @@ done
 dataset_name="domainnet"
 domain="sketch"
 session="eval_adam_${dataset_name}_${domain}"
-device="cuda:4"
+device="cuda:0"
 
 # Runs
 tmux new-session -d -s ${session}

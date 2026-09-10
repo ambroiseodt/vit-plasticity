@@ -23,7 +23,7 @@ domain="clipart"
 
 # LARGE
 model_name="large"
-device="cuda:2"
+device="cuda:0"
 batch_size=128
 val_batch_size=128
 grad_acc_steps=4
@@ -62,7 +62,7 @@ done
 # HUGE
 model_name="huge"
 patch_size=14
-device="cuda:3"
+device="cuda:0"
 batch_size=64
 val_batch_size=64
 grad_acc_steps=8
