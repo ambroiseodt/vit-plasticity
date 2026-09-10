@@ -86,7 +86,6 @@ class OxfordIIITPetDataset(Dataset):
 
         # Recover dataset
         self.samples = dataset._images
-        print(Image.open(self.samples[0]).convert("RGB"))
         self.targets = dataset._labels
         self.n_classes = 37
 

@@ -197,7 +197,7 @@ def get_evals_csv(dataset_name: str, seeds: list, lrs: list) -> None:
 
     # Save results
     df = pd.DataFrame(all_results)
-    results_path = RESULT_DIR / "ablation/finetuning"
+    results_path = RESULT_DIR / "ablation/finetuning/adam"
     if not results_path.exists():
         results_path.mkdir(parents=True, exist_ok=True)
     path = results_path / f"{dataset_name}.csv"
@@ -337,7 +337,7 @@ def table_results(dataset_names: list, seeds: list) -> None:
     relative_gain = {}
     for dataset_name in dataset_names:
         # Finetuning results
-        data = get_data(dataset_name, folder="ablation/finetuning")
+        data = get_data(dataset_name, folder="ablation/finetuning/adam")
         acc_mean[dataset_name] = {}
         acc_std[dataset_name] = {}
         relative_gain[dataset_name] = {}
@@ -392,6 +392,172 @@ def table_results(dataset_names: list, seeds: list) -> None:
     print("\n")
 
 
+def get_adam_training_evolution(
+    dataset_name: list,
+    seed: int,
+    save: bool = False,
+    ncol: int = 6,
+) -> None:
+    r"""Plot gradient norms evolution for each component."""
+    lrs = ADAM_LR_VALUES[dataset_name]
+    nrows = 2
+    ncols = len(lrs)
+    width = 4
+    height = width
+    figsize = (ncols * width, nrows * height)
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize, sharey="row")
+    all_runs = get_runs(dataset_name=dataset_name, seeds=[seed], lrs=lrs)
+
+    # Training steps for x-axis visualization
+    steps_range = {
+        "cifar10": [0, 5000, 10000],
+        "cifar100": [0, 5000, 10000],
+        "cifar10_c_contrast_5": [0, 5000, 10000],
+        "cifar10_c_gaussian_noise_5": [0, 5000, 10000],
+        "cifar10_c_motion_blur_5": [0, 5000, 10000],
+        "cifar10_c_snow_5": [0, 5000, 10000],
+        "cifar10_c_speckle_noise_5": [0, 5000, 10000],
+        "domainnet_clipart": [0, 10000, 20000],
+        "domainnet_sketch": [0, 10000, 20000],
+        "flowers102": [0, 2500, 5000],
+        "pet": [0, 2000, 4000],
+    }
+
+    # Gradient norm for y-axis visualization
+    gd_range = {
+        "cifar10": [0.2, 0.7, 1.2],
+        "cifar100": [0.3, 1.1, 1.9],
+        "cifar10_c_contrast_5": [0.3, 0.9, 1.5],
+        "cifar10_c_gaussian_noise_5": [0.3, 1.1, 1.9],
+        "cifar10_c_motion_blur_5": [0.3, 0.9, 1.5],
+        "cifar10_c_snow_5": [0.3, 0.8, 1.3],
+        "cifar10_c_speckle_noise_5": [0.3, 1.0, 1.7],
+        "domainnet_clipart": [0.3, 0.9, 1.5],
+        "domainnet_sketch": [0.3, 1.0, 1.9],
+        "flowers102": [0, 0.4, 0.8],
+        "pet": [0.1, 0.5, 0.9],
+    }
+
+    # Validation loss for y-axis visualization
+    loss_range = {
+        "cifar10": [0.0, 0.1],
+        "cifar100": [0.2, 0.4, 0.8],
+        "cifar10_c_contrast_5": [0.0, 0.3],
+        "cifar10_c_gaussian_noise_5": [0.2, 0.6, 1.0],
+        "cifar10_c_motion_blur_5": [0.1, 0.4, 0.7],
+        "cifar10_c_snow_5": [0.1, 0.3, 0.5],
+        "cifar10_c_speckle_noise_5": [0.2, 0.6, 1.0],
+        "domainnet_clipart": [0.8, 1.3, 1.8],
+        "domainnet_sketch": [1.3, 1.8, 2.3],
+        "flowers102": [0, 0.3, 0.6],
+        "pet": [0.0, 0.4, 0.8],
+    }
+
+    ordered_components = ["mha", "ffn_fc1", "ffn_fc2", "ffn_norm", "attn_norm"]
+
+    # Gradient norm
+    for i, lr in enumerate(lrs):
+        ax = axes[0, i]
+        for trainable_component in ordered_components:
+            grad_norms = all_runs[lr][trainable_component][seed]["grad_norm"]
+            steps = all_runs[lr][trainable_component][seed]["train_steps"]
+            ax.plot(
+                steps,
+                grad_norms,
+                color=COLORS[VIT_COMPONENTS_MAP[trainable_component]],
+                lw=GD_LINEWIDTH,
+                label=VIT_COMPONENTS_MAP[trainable_component],
+            )
+
+        # Visualization
+        ax.grid(alpha=ALPHA_GRID, lw=1.3)
+        ax.spines["left"].set_linewidth(1)
+        ax.spines["right"].set_linewidth(1)
+        ax.spines["top"].set_linewidth(1)
+        ax.spines["bottom"].set_linewidth(1)
+        ax.tick_params(axis="both", direction="out", length=5, width=1)
+
+        # Fix x-axis ticks
+        xticks = steps_range[dataset_name]
+        ax.set_xticks(xticks)
+        ax.set_xticklabels(np.array(xticks, dtype=int))
+
+        # Fix y-axis ticks
+        yticks = np.asarray(gd_range[dataset_name])
+        ax.set_ylim(yticks.min(), yticks.max())
+        ax.set_yticks(yticks)
+        ax.set_yticklabels(yticks)
+        ax.set_title(r"$\eta=$" + f"{float(lr):.0e}\n")
+        ax.set_xlabel("Training Steps", fontsize=FONTSIZE)
+        if i == 0:
+            ax.set_ylabel("Gradient Norm", fontsize=FONTSIZE)
+        sns.despine(fig, ax, trim=True, right=True, offset=10)
+
+        ax = axes[1, i]
+        for trainable_component in ordered_components:
+            grad_norms = all_runs[lr][trainable_component][seed]["val_loss"]
+            steps = all_runs[lr][trainable_component][seed]["val_steps"]
+            ax.plot(
+                steps,
+                grad_norms,
+                color=COLORS[VIT_COMPONENTS_MAP[trainable_component]],
+                lw=GD_LINEWIDTH,
+                label=VIT_COMPONENTS_MAP[trainable_component],
+            )
+
+        # Visualization
+        ax.grid(alpha=ALPHA_GRID, lw=1.3)
+        ax.spines["left"].set_linewidth(1)
+        ax.spines["right"].set_linewidth(1)
+        ax.spines["top"].set_linewidth(1)
+        ax.spines["bottom"].set_linewidth(1)
+        ax.tick_params(axis="both", direction="out", length=5, width=1)
+
+        # Fix x-axis ticks
+        xticks = steps_range[dataset_name]
+        ax.set_xticks(xticks)
+        ax.set_xticklabels(np.array(xticks, dtype=int))
+
+        # Fix y-axis ticks
+        yticks = np.asarray(loss_range[dataset_name])
+        ax.set_ylim(yticks.min(), yticks.max())
+        ax.set_yticks(yticks)
+        ax.set_yticklabels(np.array(yticks, dtype=float))
+
+        ax.set_xlabel("Training Steps", fontsize=FONTSIZE)
+        if i == 0:
+            ax.set_ylabel("Validation Loss", fontsize=FONTSIZE)
+        sns.despine(fig, ax, trim=True, right=True, offset=10)
+
+    # Common legend with reordered labels
+    lines_labels = [fig.axes[0].get_legend_handles_labels()]
+    lines, labels = [sum(lol, []) for lol in zip(*lines_labels, strict=False)]
+
+    leg = fig.legend(
+        lines,
+        labels,
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.05),
+        fancybox=True,
+        borderaxespad=0,
+        ncol=ncol,
+        shadow=False,
+        frameon=True,
+        handlelength=1.9,
+        fontsize=FONTSIZE,
+    )
+
+    # Manually change the line width for the legend
+    for line in leg.get_lines():
+        line.set_linewidth(LINEWIDTH)
+
+    plt.tight_layout()
+    if save:
+        figname = f"adam_training_evolution_{dataset_name}_seed_{seed}"
+        save_plot(figname=figname)
+    plt.show()
+
+
 def get_adamw_robustness_training_domainnet_sketch(
     save: bool = False,
     ncol: int = 6,
@@ -409,7 +575,7 @@ def get_adamw_robustness_training_domainnet_sketch(
     # Robustness on all seeds and learning rates
     seeds = [0]
     ax = axes[0]
-    adam_data = get_data(dataset_name, folder="ablation/finetuning")
+    adam_data = get_data(dataset_name, folder="ablation/finetuning/adam")
     adam_results = {}
     for trainable_component in VIT_COMPONENTS_MAP.keys():
         adam_results[trainable_component] = []
@@ -700,6 +866,17 @@ def get_table_results() -> None:
 
 def plot_figures() -> None:
     save = True
+    dataset_names = [
+        "cifar100",
+        "cifar10_c_motion_blur_5",
+        "domainnet_clipart",
+        "domainnet_sketch",
+    ]
+    save = True
+    seeds = [0]
+    for seed in seeds:
+        for dataset_name in dataset_names:
+            get_adam_training_evolution(dataset_name=dataset_name, seed=seed, save=save)
     get_adamw_robustness_training_domainnet_sketch(save=save)
 
 
