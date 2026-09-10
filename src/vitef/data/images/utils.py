@@ -232,12 +232,6 @@ def build_dataset(config: dict[str, Any]) -> Dataset:
             dataset_type = Cifar10Dataset
             config_obj = build_with_type_check(Cifar10DatasetConfig, config)
 
-        case "cifar10ld":
-            from vitef.data.images.cifar10ld import Cifar10Dataset, Cifar10DatasetConfig
-
-            dataset_type = Cifar10Dataset
-            config_obj = build_with_type_check(Cifar10DatasetConfig, config)
-
         case x if "cifar10_c" in x:
             from vitef.data.images.cifar10_c import Cifar10CDataset, Cifar10CDatasetConfig
 
@@ -245,17 +239,6 @@ def build_dataset(config: dict[str, Any]) -> Dataset:
 
             # Dataset name format should be cifar10_c-corruption-brightness-severity-1
             substring = dataset_name.split("cifar10_c", 1)[-1]
-            substring = substring.split("-corruption-", 1)[-1]
-            config["corruption_type"], config["corruption_severity"] = substring.split("-severity-", 1)
-            config_obj = build_with_type_check(Cifar10CDatasetConfig, config)
-
-        case x if "cifar10ld_c" in x:
-            from vitef.data.images.cifar10_c import Cifar10CDataset, Cifar10CDatasetConfig
-
-            dataset_type = Cifar10CDataset
-
-            # Dataset name format should be cifar10_c-corruption-brightness-severity-1
-            substring = dataset_name.split("cifar10ld_c", 1)[-1]
             substring = substring.split("-corruption-", 1)[-1]
             config["corruption_type"], config["corruption_severity"] = substring.split("-severity-", 1)
             config_obj = build_with_type_check(Cifar10CDatasetConfig, config)
@@ -277,12 +260,6 @@ def build_dataset(config: dict[str, Any]) -> Dataset:
             config["corruption_type"], config["corruption_severity"] = substring.split("-severity-", 1)
             config_obj = build_with_type_check(Cifar100CDatasetConfig, config)
 
-        case "cifar100ld":
-            from vitef.data.images.cifar100ld import Cifar100ldDataset, Cifar100ldDatasetConfig
-
-            dataset_type = Cifar100ldDataset
-            config_obj = build_with_type_check(Cifar100ldDatasetConfig, config)
-
         case x if "domainnet" in x:
             from vitef.data.images.domainnet import DomainNetDataset, DomainNetDatasetConfig
 
@@ -292,23 +269,8 @@ def build_dataset(config: dict[str, Any]) -> Dataset:
             config["domain"] = dataset_name.split("domainnet-", 1)[-1]
             config_obj = build_with_type_check(DomainNetDatasetConfig, config)
 
-        case x if "domainld" in x:
-            from vitef.data.images.domainnetld import DomainNetldDataset, DomainNetldDatasetConfig
-
-            dataset_type = DomainNetldDataset
-
-            # Dataset name format should be domainnet-clipart
-            config["domain"] = dataset_name.split("domainld-", 1)[-1]
-            config_obj = build_with_type_check(DomainNetldDatasetConfig, config)
-
         case "flowers102":
             from vitef.data.images.flowers102 import Flowers102Dataset, Flowers102DatasetConfig
-
-            dataset_type = Flowers102Dataset
-            config_obj = build_with_type_check(Flowers102DatasetConfig, config)
-
-        case "flold":
-            from vitef.data.images.flold import Flowers102Dataset, Flowers102DatasetConfig
 
             dataset_type = Flowers102Dataset
             config_obj = build_with_type_check(Flowers102DatasetConfig, config)
@@ -332,12 +294,6 @@ def build_dataset(config: dict[str, Any]) -> Dataset:
 
         case "pet":
             from vitef.data.images.pet import OxfordIIITPetDataset, OxfordIIITPetDatasetConfig
-
-            dataset_type = OxfordIIITPetDataset
-            config_obj = build_with_type_check(OxfordIIITPetDatasetConfig, config)
-
-        case "ptld":
-            from vitef.data.images.petld import OxfordIIITPetDataset, OxfordIIITPetDatasetConfig
 
             dataset_type = OxfordIIITPetDataset
             config_obj = build_with_type_check(OxfordIIITPetDatasetConfig, config)
