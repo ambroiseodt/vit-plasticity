@@ -1,4 +1,4 @@
-# Vision Transformer Plasticity
+# Vision Transformer Plasticity (ICML 2026)
 [![arXiv](https://img.shields.io/badge/arXiv-2602.06883-b31b1b.svg)](https://arxiv.org/abs/2602.06883)
 [![Dataset](https://img.shields.io/badge/🤗%20Hugging%20Face-Paper-yellow)](https://huggingface.co/papers/2602.06883)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
