@@ -265,7 +265,7 @@ def save_plot(figname: str, folder: str = None, format: str = "pdf", dpi: int = 
 
 
 def save_results() -> None:
-    device = "cuda:3"
+    device = "cuda:0"
     dataset_name = "cifar10"
     batch_size = 4
     n_steps = 20
@@ -719,7 +719,6 @@ def get_latex_frames(save: bool) -> None:
 
 
 def get_frames(save: bool) -> None:
-
     # Visualization
     lw_grid = 0.2
     lw_surface = 0.1
