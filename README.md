@@ -11,6 +11,9 @@ Official implementation of the paper [Vision Transformer Finetuning Benefits fro
 
 <img width="945" height="855" alt="loss_landscape" src="https://github.com/user-attachments/assets/1888835f-e58c-4659-8a3e-3a3dd702632e" />
 
+## News
+### Apr 30, 2026: 🥳 Our [paper](https://openreview.net/forum?id=lTXvOhUOl2) is accepted at ICML 2026!
+
 ## Abstract
 > The smoothness of the transformer architecture has been extensively studied in the context of generalization, training stability, and adversarial robustness. However, its role in transfer learning remains poorly understood. In this paper, we analyze the ability of vision transformer components to adapt their outputs to changes in inputs, or, in other words, their *plasticity*. Defined as an average rate of change, it captures the sensitivity to input perturbation; in particular, a high plasticity implies low smoothness. We demonstrate through theoretical analysis and comprehensive experiments that this perspective provides principled guidance in choosing the components to prioritize during adaptation. A key takeaway for practitioners is that the high plasticity of the attention modules and feedforward layers consistently leads to better finetuning performance. Our findings depart from the prevailing assumption that smoothness is desirable, offering a novel perspective on the functional properties of transformers.
 <img width="1891" height="667" alt="intro" src="https://github.com/user-attachments/assets/1b28656c-a84f-4577-bfcb-41cc2cf81139" />
@@ -145,13 +148,11 @@ If you have any questions, feel free to reach out at [```ambroiseodonnattechnolo
 ## Citation
 If you find our work useful, please consider giving a star ⭐, and citing us as:
 ```
-@misc{odonnat2026vitplasticity,
-      title={Vision Transformer Finetuning Benefits from Non-Smooth Components}, 
-      author={Ambroise Odonnat and Laetitia Chapel and Romain Tavenard and Ievgen Redko},
-      year={2026},
-      eprint={2602.06883},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2602.06883}, 
+@inproceedings{odonnat2026vision,
+title={Vision Transformer Finetuning Benefits from Non-Smooth Components},
+author={Ambroise Odonnat and Laetitia Chapel and Romain Tavenard and Ievgen Redko},
+booktitle={Forty-third International Conference on Machine Learning},
+year={2026},
+url={https://openreview.net/forum?id=lTXvOhUOl2}
 }
 ```
