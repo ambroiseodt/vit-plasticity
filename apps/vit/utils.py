@@ -60,7 +60,7 @@ def freeze_model(model: nn.Module, components: list[str]) -> None:
     model: nn.Module
         Model whose components we want to freeze.
     components: list[str]
-        Elements of the list can be "emb", "attn_norm", "mha", "ffn_norm", "ffn_fc1", "ffn_activation" or "ffn_fc2".
+        Elements of the list can be "emb", "attn_norm", "mha", "ffn_norm", "ffn_fc1", or "ffn_fc2".
     """
 
     # Mapping between components and ViT weights
